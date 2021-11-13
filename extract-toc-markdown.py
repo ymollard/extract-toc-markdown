@@ -8,6 +8,7 @@ parser.add_argument("--spacedtitles",
                     choices=["ignore", "nocount", "count"],
                     default="count",
                     help="How to treat titles with >= 2 initial spaces after #")
+parser.add_argument("--max-depth", type=int, default=10, help="Ignore titles behind this depth")
 args = parser.parse_args()
 
 hold_verbatim = False
@@ -42,7 +43,9 @@ with open(args.path) as f:
                 if initial_spaces < 2 or args.spacedtitles == "count":
                     level_string += ".".join(map(str, levels))
 
-                if initial_spaces < 2 or args.spacedtitles != "ignore":
+                must_print_spacedtitles = initial_spaces < 2 or args.spacedtitles != "ignore"
+                must_print_depth = level <= args.max_depth
+                if must_print_spacedtitles and must_print_depth:
                     print(level_string + ". " + line.strip().replace("#", ""))
                     previous_section_line_num = 0
             else:
