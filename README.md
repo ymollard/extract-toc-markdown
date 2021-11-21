@@ -1,5 +1,5 @@
 # extract-toc-markdown
-Extract Table Of Content (ToC) from Markdown files
+Extract Table Of Content (ToC) from any Markdown file, including features for [Marp slides](https://marp.app/).
 
 ## Usage
 ```bash
@@ -27,3 +27,17 @@ python extract-toc-markdown.py my-markdown-file.md --spacedtitles=nocount
 ./extract-toc-markdown.py my-markdown-file.md --max-depth=2
 ```
 will limit output to titles and subtitles (depth=2).
+
+### Generate slide links
+This is made for Marp slides with "---" slide delimiters.
+```bash
+./extract-toc-markdown.py my-markdown-file.md --link-slides-level=2 --max-depth=3
+```
+Here we generate a ToC for 3 levels but only 2 have links to the right slide page:
+```
+1. [Introduction](#2)
+    1.1. [A](#2)
+       1.1.1. level 3 is not linked
+    1.2. [B](#5)
+    1.3. [C](#9)
+```
